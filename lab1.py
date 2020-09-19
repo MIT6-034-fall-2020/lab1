@@ -100,7 +100,29 @@ def sort_by_heuristic(graph, goalNode, nodes):
     consider a smaller heuristic value to be "better" because it represents a
     shorter potential path to the goal. Break ties lexicographically by 
     node name."""
-    raise NotImplementedError
+    
+    # Iterate through nodes, keep track of heuristic in dictionary and sort
+    heuristic_values = {}
+    for node in nodes:
+        heuristic_val = graph.get_heuristic_value(node, goalNode)
+        if heuristic_val in heuristic_values.keys():
+            heuristic_values[heuristic_val].append(node)
+        else:
+            heuristic_values[heuristic_val] = [node]
+
+    # Sorts the dictionary based on hueristic values
+    keys = sorted(heuristic_values.keys())
+
+    # Apply the lexical sort and append
+    sorted_nodes = []
+    for key in keys:
+        nodes_lst = sorted(heuristic_values[key])
+        sorted_nodes.extend(nodes_lst)
+
+    return sorted_nodes
+
+    
+
 
 # You can ignore the following line.  It allows generic_search (PART 3) to
 # access the extensions and has_loops functions that you just defined in PART 1.
