@@ -191,16 +191,12 @@ def basic_bfs(graph, startNode, goalNode):
 #     # YOUR CODE HERE
 #     return sorted_paths
 
-# DFS sorting: lexicographically
-def dfs_sorting_fn(graph, goalNode, paths):
+# Lexicographical sorting (DFS and BFS)
+def lexical_sorting_fn(graph, goalNode, paths):
     return sorted(paths)
 
-# BFS sorting: lexicographically
-def bfs_sorting_fn(graph, goalNode, paths):
-    return sorted(paths)
-
-# Hill Climbing: sort by highest hueristic value
-def hill_climbing_sorting_fn(graph, goalNode, paths):
+# Hueristic: sort by highest hueristic
+def hueristic_sorting_fn(graph, goalNode, paths):
     paths_dict = {}
     for path in paths:
         curr_node = path[-1]
@@ -219,33 +215,14 @@ def hill_climbing_sorting_fn(graph, goalNode, paths):
 
     return sorted_paths
 
-# Best First: sort by highest hueristic value 
-def best_first_sorting_agenda_fn(graph, goalNode, paths):
-    paths_dict = {}
-    for path in paths:
-        curr_node = path[-1]
-        if curr_node in paths_dict.keys():
-            paths_dict[curr_node].append(path)
-        else:
-            paths_dict[curr_node] = [path]
 
-    curr_nodes = paths_dict.keys()
-    sorted_curr_nodes = sort_by_heuristic(graph, goalNode, curr_nodes)
+generic_dfs = [lexical_sorting_fn, True, do_nothing_fn, False]
 
-    sorted_paths = []
-    for node in sorted_curr_nodes:
-        path_lst = sorted(paths_dict[node])
-        sorted_paths.extend(path_lst)
+generic_bfs = [lexical_sorting_fn, False, do_nothing_fn, False]
 
-    return sorted_paths
+generic_hill_climbing = [hueristic_sorting_fn, True, do_nothing_fn, False]
 
-generic_dfs = [dfs_sorting_fn, True, do_nothing_fn, False]
-
-generic_bfs = [dfs_sorting_fn, False, do_nothing_fn, False]
-
-generic_hill_climbing = [hill_climbing_sorting_fn, True, do_nothing_fn, False]
-
-generic_best_first = [do_nothing_fn, True, best_first_sorting_agenda_fn, False]
+generic_best_first = [do_nothing_fn, True, hueristic_sorting_fn, False]
 
 generic_branch_and_bound = [None, None, None, None]
 
