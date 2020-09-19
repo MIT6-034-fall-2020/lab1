@@ -45,7 +45,15 @@ def path_length(graph, path):
 def has_loops(path):
     """Returns True if this path has a loop in it, i.e. if it
     visits a node more than once. Returns False otherwise."""
-    raise NotImplementedError
+    
+    # Use sets and compare length. If there's size discrepency, then a node repeated
+    unique_nodes = set(path)
+
+    if len(unique_nodes) < len(path):
+        return True
+
+    return False
+
 
 def extensions(graph, path):
     """Returns a list of paths. Each path in the list should be a one-node
