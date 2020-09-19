@@ -157,57 +157,6 @@ def basic_dfs(graph, startNode, goalNode):
 
     return None
 
-    # # Need a queue for memory
-    # def basic_dfs_w_queue (graph, queue, goalNode):
-    #     # Checks if queue is non-empty
-    #     if len(queue) == 0:
-    #         return None
-
-    #     # Checks if current path is good
-    #     if queue[0][-1] == goalNode:
-    #         return queue[0]
-
-    #     # Current path and possible paths
-    #     possible_paths = extensions(graph, queue[0])
-
-    #     # Remove current path from queue and replaces with possible path
-    #     queue.pop(0)
-    #     possible_paths.extend(queue)
-
-    #     for path in possible_paths:
-    #         basic_dfs_w_queue(graph, queue, goalNode)
-
-    #     return possible_paths
-
-
-    # return (basic_dfs_w_queue(graph, [[startNode]], goalNode))
-
-    #     path = [startNode]
-    #     new_queue = extensions(graph, [startNode])
-    #     queue = new_queue.extend(queue)
-
-
-
-    # # Check if startNode is goalNode
-    # if startNode == goalNode:
-    #     return [startNode]
-
-    # # Creating path and queue
-    # path = [startNode]
-    # agenda = extensions(graph, [startNode])
-
-    # # Dead-end point
-    # if len(agenda) == 0:
-    #     return None
-    
-    # for item in agenda:
-    #     branch = basic_dfs(graph, item[-1], goalNode)
-    #     if branch:
-    #         path.extend(branch)
-    #         return path
-
-    # return None
-    raise NotImplementedError
 
 def basic_bfs(graph, startNode, goalNode):
     """
