@@ -199,13 +199,32 @@ def dfs_sorting_fn(graph, goalNode, paths):
 def bfs_sorting_fn(graph, goalNode, paths):
     return sorted(paths)
 
+# BFS sorting: sort by highest hueristic value
+def hill_climbing_sorting_fn(graph, goalNode, paths):
+    paths_dict = {}
+    for path in paths:
+        curr_node = path[-1]
+        if curr_node in paths_dict.keys():
+            paths_dict[curr_node].append(path)
+        else:
+            paths_dict[curr_node] = [path]
+
+    curr_nodes = paths_dict.keys()
+    sorted_curr_nodes = sort_by_heuristic(graph, goalNode, curr_nodes)
+
+    sorted_paths = []
+    for node in sorted_curr_nodes:
+        path_lst = sorted(paths_dict[node])
+        sorted_paths.extend(path_lst)
+
+    return sorted_paths
 
 
 generic_dfs = [dfs_sorting_fn, True, do_nothing_fn, False]
 
 generic_bfs = [dfs_sorting_fn, False, do_nothing_fn, False]
 
-generic_hill_climbing = [None, None, None, None]
+generic_hill_climbing = [hill_climbing_sorting_fn, True, do_nothing_fn, False]
 
 generic_best_first = [None, None, None, None]
 
@@ -322,22 +341,22 @@ heuristic_4['G']['G'] = h4_G
 
 ##### PART 5: Multiple Choice ##################################################
 
-ANSWER_1 = ''
+ANSWER_1 = '2'
 
-ANSWER_2 = ''
+ANSWER_2 = '4'
 
-ANSWER_3 = ''
+ANSWER_3 = '1'
 
-ANSWER_4 = ''
+ANSWER_4 = '3'
 
 
 #### SURVEY ####################################################################
 
 NAME = "Nabib Ahmed"
-COLLABORATORS = None
+COLLABORATORS = "Individual Submission"
 HOW_MANY_HOURS_THIS_LAB_TOOK = "10"
 WHAT_I_FOUND_INTERESTING = "Learned about search implementation"
-WHAT_I_FOUND_BORING = None
+WHAT_I_FOUND_BORING = "None"
 SUGGESTIONS = "Clearer explanation for part 3"
 
 
