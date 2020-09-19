@@ -23,7 +23,24 @@ def path_length(graph, path):
     (That is, the list of nodes defines a path through the graph.)
     A path with fewer than 2 nodes should have length of 0.
     You can assume that all edges along the path have a valid numeric weight."""
-    raise NotImplementedError
+    
+    # Check if path less than 2 nodes
+    if len(path) < 2:
+        return 0
+    
+    # Tracks distance, initialized at 0
+    distance = 0
+
+    # Iterates through adjacent node pairs 
+    # Gets the edge object using graph.get_edge 
+    # Use edge.length to acquire distances
+    # Assumes all nodes are connected
+    for i in range(len(path)-1):
+        distance += (graph.get_edge(path[i], path[i+1])).length
+
+    return distance
+
+
 
 def has_loops(path):
     """Returns True if this path has a loop in it, i.e. if it
