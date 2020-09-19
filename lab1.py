@@ -215,6 +215,25 @@ def hueristic_sorting_fn(graph, goalNode, paths):
 
     return sorted_paths
 
+# Path Length: sort by length of path
+def length_sorting_fn(graph, goalNode, paths):
+    paths_dict = {}
+    for path in paths:
+        length = path_length(graph, path)
+        if length in paths_dict.keys():
+            paths_dict[length].append(path)
+        else:
+            paths_dict[length] = [path]
+
+    lengths = sorted(paths_dict.keys())
+
+    sorted_paths = []
+    for length in lengths:
+        path_lst = sorted(paths_dict[length])
+        sorted_paths.extend(path_lst)
+
+    return sorted_paths
+
 
 generic_dfs = [lexical_sorting_fn, True, do_nothing_fn, False]
 
@@ -224,7 +243,7 @@ generic_hill_climbing = [hueristic_sorting_fn, True, do_nothing_fn, False]
 
 generic_best_first = [do_nothing_fn, True, hueristic_sorting_fn, False]
 
-generic_branch_and_bound = [None, None, None, None]
+generic_branch_and_bound = [do_nothing_fn, True, length_sorting_fn, False]
 
 generic_branch_and_bound_with_heuristic = [None, None, None, None]
 
