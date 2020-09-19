@@ -157,14 +157,29 @@ def basic_dfs(graph, startNode, goalNode):
 
     return None
 
-
 def basic_bfs(graph, startNode, goalNode):
     """
     Performs a breadth-first search on a graph from a specified start
     node to a specified goal node, returning a path-to-goal if it
     exists, otherwise returning None.
     """
-    raise NotImplementedError
+    
+    queue = [[startNode]]
+
+    # Loops till queue exhausted
+    while queue:
+        # Check if current path suffics
+        if queue[0][-1] == goalNode:
+            return queue[0]
+
+        # get extensions of current path
+        possible_paths = extensions(graph, queue[0])
+
+        # pop and append new paths to the end of the queue
+        queue.pop(0)
+        queue = queue + possible_paths 
+
+    return None
 
 
 #### PART 3: Generic Search ####################################################
