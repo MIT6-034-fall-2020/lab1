@@ -61,7 +61,38 @@ def extensions(graph, path):
     by adding a neighbor node (of the final node in the path) to the path.
     Returned paths should not have loops, i.e. should not visit the same node
     twice. The returned paths should be sorted in lexicographic order."""
-    raise NotImplementedError
+    
+    # Since we're look at extensions, we need to consider the last element of the path
+    # We can use graph.get_neighbors(node) to find neigbors
+    # Want to exclude any visited nodes (can use sets to keep track)
+
+    # All the visited nodes
+    visited_nodes = set(path)
+
+    # Current node on path
+    curr_node = path[-1]
+
+    # Getting neighbors
+    neighbors = graph.get_neighbors(curr_node)
+
+    # Make extension array and add to it from neighbors
+    extensions = []
+    for neighbor in neighbors:
+        if neighbor not in visited_nodes:
+            extensions.append(neighbor)
+
+    # Sort the nodes
+    extensions.sort()
+
+    # Construct the paths 
+    paths = []
+    for extension in extensions:
+        path_copy = path.copy() # avoid tampering with original path
+        path_copy.append(extension)
+        paths.append(path_copy)
+    
+    return paths
+
 
 def sort_by_heuristic(graph, goalNode, nodes):
     """Given a list of nodes, sorts them best-to-worst based on the heuristic
