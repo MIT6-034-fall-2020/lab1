@@ -41,8 +41,6 @@ def path_length(graph, path):
 
     return distance
 
-
-
 def has_loops(path):
     """Returns True if this path has a loop in it, i.e. if it
     visits a node more than once. Returns False otherwise."""
@@ -54,7 +52,6 @@ def has_loops(path):
         return True
 
     return False
-
 
 def extensions(graph, path):
     """Returns a list of paths. Each path in the list should be a one-node
@@ -94,7 +91,6 @@ def extensions(graph, path):
     
     return paths
 
-
 def sort_by_heuristic(graph, goalNode, nodes):
     """Given a list of nodes, sorts them best-to-worst based on the heuristic
     from each node to the goal node. Here, and in general for this lab, we
@@ -121,8 +117,6 @@ def sort_by_heuristic(graph, goalNode, nodes):
         sorted_nodes.extend(nodes_lst)
 
     return sorted_nodes
-
-    
 
 
 # You can ignore the following line.  It allows generic_search (PART 3) to
@@ -197,11 +191,19 @@ def basic_bfs(graph, startNode, goalNode):
 #     # YOUR CODE HERE
 #     return sorted_paths
 
+# DFS sorting: lexicographically
+def dfs_sorting_fn(graph, goalNode, paths):
+    return sorted(paths)
+
+# BFS sorting: lexicographically
+def bfs_sorting_fn(graph, goalNode, paths):
+    return sorted(paths)
 
 
-generic_dfs = [None, None, None, None]
 
-generic_bfs = [None, None, None, None]
+generic_dfs = [dfs_sorting_fn, True, do_nothing_fn, False]
+
+generic_bfs = [dfs_sorting_fn, False, do_nothing_fn, False]
 
 generic_hill_climbing = [None, None, None, None]
 
@@ -331,12 +333,12 @@ ANSWER_4 = ''
 
 #### SURVEY ####################################################################
 
-NAME = None
+NAME = "Nabib Ahmed"
 COLLABORATORS = None
-HOW_MANY_HOURS_THIS_LAB_TOOK = None
-WHAT_I_FOUND_INTERESTING = None
+HOW_MANY_HOURS_THIS_LAB_TOOK = "10"
+WHAT_I_FOUND_INTERESTING = "Learned about search implementation"
 WHAT_I_FOUND_BORING = None
-SUGGESTIONS = None
+SUGGESTIONS = "Clearer explanation for part 3"
 
 
 
