@@ -332,7 +332,20 @@ def is_consistent(graph, goalNode):
     In other words, moving from one node to a neighboring node never unfairly
     decreases the heuristic.
     This is equivalent to the heuristic satisfying the triangle inequality."""
-    raise NotImplementedError
+    
+    # Get all the edges
+    edges = graph.edges
+    
+    # Iterate through all edge and compare heuristic to actual
+    for e in edges:
+        length = e.length
+        heuristicStart = graph.get_heuristic_value(e.startNode, goalNode)
+        heuristicEnd = graph.get_heuristic_value(e.endNode, goalNode)
+        heuristicLength = abs(heuristicStart - heuristicEnd)
+        if length < heuristicLength:
+            return False
+
+    return True
 
 
 ### OPTIONAL: Picking Heuristics
@@ -408,7 +421,7 @@ COLLABORATORS = "Individual Submission"
 HOW_MANY_HOURS_THIS_LAB_TOOK = "10"
 WHAT_I_FOUND_INTERESTING = "Learned about search implementation"
 WHAT_I_FOUND_BORING = "None"
-SUGGESTIONS = "Clearer explanation for part 3"
+SUGGESTIONS = "Clearer explanation for part 3; had to seek clarification on piazza."
 
 
 
