@@ -195,7 +195,7 @@ def basic_bfs(graph, startNode, goalNode):
 def lexical_sorting_fn(graph, goalNode, paths):
     return sorted(paths)
 
-# Hueristic: sort by highest hueristic
+# Hueristic: sort by highest hueristic (Hill Climbing and Best First)
 def hueristic_sorting_fn(graph, goalNode, paths):
     paths_dict = {}
     for path in paths:
@@ -215,7 +215,7 @@ def hueristic_sorting_fn(graph, goalNode, paths):
 
     return sorted_paths
 
-# Path Length: sort by length of path
+# Path Length: sort by length of path (Branch and Bound)
 def length_sorting_fn(graph, goalNode, paths):
     paths_dict = {}
     for path in paths:
@@ -234,6 +234,27 @@ def length_sorting_fn(graph, goalNode, paths):
 
     return sorted_paths
 
+# Path Length and Hueristic: sort by length of path and hueristics (Branch and Bound with Heuristics)
+def length_hueristic_sorting_fn(graph, goalNode, paths):
+    paths_dict = {}
+    for path in paths:
+        length = path_length(graph, path)
+        heuristic = graph.get_heuristic_value(path[-1], goalNode)
+        metric = length + heuristic
+        if metric in paths_dict.keys():
+            paths_dict[metric].append(path)
+        else:
+            paths_dict[metric] = [path]
+
+    metrics = sorted(paths_dict.keys())
+
+    sorted_paths = []
+    for metric in metrics:
+        path_lst = sorted(paths_dict[metric])
+        sorted_paths.extend(path_lst)
+
+    return sorted_paths
+
 
 generic_dfs = [lexical_sorting_fn, True, do_nothing_fn, False]
 
@@ -245,11 +266,11 @@ generic_best_first = [do_nothing_fn, True, hueristic_sorting_fn, False]
 
 generic_branch_and_bound = [do_nothing_fn, True, length_sorting_fn, False]
 
-generic_branch_and_bound_with_heuristic = [None, None, None, None]
+generic_branch_and_bound_with_heuristic = [do_nothing_fn, True, length_hueristic_sorting_fn, False]
 
-generic_branch_and_bound_with_extended_set = [None, None, None, None]
+generic_branch_and_bound_with_extended_set = [do_nothing_fn, True, length_sorting_fn, True]
 
-generic_a_star = [None, None, None, None]
+generic_a_star = [do_nothing_fn, True, length_hueristic_sorting_fn, True]
 
 
 # Here is an example of how to call generic_search (uncomment to run):
