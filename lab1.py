@@ -195,8 +195,8 @@ def basic_bfs(graph, startNode, goalNode):
 def lexical_sorting_fn(graph, goalNode, paths):
     return sorted(paths)
 
-# Hueristic: sort by highest hueristic (Hill Climbing and Best First)
-def hueristic_sorting_fn(graph, goalNode, paths):
+# Hueristic: sort by highest heuristic (Hill Climbing and Best First)
+def heuristic_sorting_fn(graph, goalNode, paths):
     paths_dict = {}
     for path in paths:
         curr_node = path[-1]
@@ -234,8 +234,8 @@ def length_sorting_fn(graph, goalNode, paths):
 
     return sorted_paths
 
-# Path Length and Hueristic: sort by length of path and hueristics (Branch and Bound with Heuristics)
-def length_hueristic_sorting_fn(graph, goalNode, paths):
+# Path Length and Heuristic: sort by length of path and hueristics (Branch and Bound with Heuristics)
+def length_heuristic_sorting_fn(graph, goalNode, paths):
     paths_dict = {}
     for path in paths:
         length = path_length(graph, path)
@@ -260,17 +260,17 @@ generic_dfs = [lexical_sorting_fn, True, do_nothing_fn, False]
 
 generic_bfs = [lexical_sorting_fn, False, do_nothing_fn, False]
 
-generic_hill_climbing = [hueristic_sorting_fn, True, do_nothing_fn, False]
+generic_hill_climbing = [heuristic_sorting_fn, True, do_nothing_fn, False]
 
-generic_best_first = [do_nothing_fn, True, hueristic_sorting_fn, False]
+generic_best_first = [do_nothing_fn, True, heuristic_sorting_fn, False]
 
 generic_branch_and_bound = [do_nothing_fn, True, length_sorting_fn, False]
 
-generic_branch_and_bound_with_heuristic = [do_nothing_fn, True, length_hueristic_sorting_fn, False]
+generic_branch_and_bound_with_heuristic = [do_nothing_fn, True, length_heuristic_sorting_fn, False]
 
 generic_branch_and_bound_with_extended_set = [do_nothing_fn, True, length_sorting_fn, True]
 
-generic_a_star = [do_nothing_fn, True, length_hueristic_sorting_fn, True]
+generic_a_star = [do_nothing_fn, True, length_heuristic_sorting_fn, True]
 
 
 # Here is an example of how to call generic_search (uncomment to run):
@@ -306,7 +306,22 @@ def is_admissible(graph, goalNode):
     """Returns True if this graph's heuristic is admissible; else False.
     A heuristic is admissible if it is either always exactly correct or overly
     optimistic; it never over-estimates the cost to the goal."""
-    raise NotImplementedError
+    
+    # Get all the nodes
+    nodes = graph.nodes
+
+    # Branch and Bound with Extended Set (BBES) is the fastest and reassures shortest path
+    bbes = generic_search(*generic_branch_and_bound_with_extended_set)
+
+    # Iterate through nodes, get distance and heuristic, and compare
+    for node in nodes:
+        shortest_path = bbes(graph, node, goalNode)
+        actual_dist = path_length(graph, shortest_path)
+        heuristic_dist = graph.get_heuristic_value(node, goalNode)
+        if heuristic_dist > actual_dist:
+            return False
+
+    return True
 
 def is_consistent(graph, goalNode):
     """Returns True if this graph's heuristic is consistent; else False.
